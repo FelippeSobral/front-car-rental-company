@@ -1,0 +1,25 @@
+<div class="brands-list">
+  <h2>Lista de Marcas</h2>
+  <button routerlink="/brands/new" class="btn-add">Adicionar Nova Marca</button>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let brand of brands">
+      <td>{{brand.id}}</td>
+      <td>{{brand.name}}</td>
+
+      <td>
+        <button (click)="editBrand(brand.id)" class="btn-edit">Editar</button>
+        <button (click)="deleteBrand(brand.id)" class="btn-delete">Excluir</button>
+      </td>
+    </tr>
+   </tbody>
+  </table>
+</div>
