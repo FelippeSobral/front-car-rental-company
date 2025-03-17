@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs';
-
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 export interface Brand {
   id: number;
@@ -12,40 +10,39 @@ export interface Brand {
   providedIn: 'root'
 })
 export class BrandService {
+  private brands: Brand[] = []; // Inicializa a lista de marcas
+  private brandsSubject = new BehaviorSubject<Brand[]>(this.brands); // Torna a lista de marcas reativa
 
-  private brands: Brand[] = [
-    {id: 1, name: 'Marca A'},
-    {id: 2, name: 'Marca B'},
-    {id: 3, name: 'Narca C'}
-  ]
-  constructor() { }
+  constructor() {}
 
+  // Retorna a lista de marcas
   getBrands(): Observable<Brand[]> {
-    return of(this.brands);
+    return of(this.brands); // Retorna a lista de marcas como um Observable
   }
 
-  getBrand(id: number): Observable<Brand | undefined> {
-    const brand = this.brands.find(b => b.id === id);
-    return of(brand); // Simula uma chamada HTTP
-  }
-
+  // Cria uma nova marca
   createBrand(brand: Brand): Observable<Brand> {
-    brand.id = this.brands.length + 1; // Simula a geração de um ID
-    this.brands.push(brand);
-    return of(brand); // Simula uma chamada HTTP
+    brand.id = this.brands.length + 1; // Gera um novo ID
+    this.brands.push(brand); // Adiciona a marca ao array
+    return of(brand); // Retorna a marca criada
   }
 
+  // Atualiza uma marca existente
   updateBrand(brand: Brand): Observable<Brand> {
     const index = this.brands.findIndex(b => b.id === brand.id);
     if (index !== -1) {
-      this.brands[index] = brand;
+      this.brands[index] = brand; // Atualiza a marca no array
     }
-    return of(brand); // Simula uma chamada HTTP
+    return of(brand); // Retorna a marca atualizada
   }
 
+  // Exclui uma marca
   deleteBrand(id: number): Observable<void> {
-    this.brands = this.brands.filter(b => b.id !== id);
-    return of(); // Simula uma chamada HTTP
-  }
+        // Remove a marca do array
 
+    this.brands = this.brands.filter(b => b.id !== id);
+    this.brandsSubject.next(this.brands); // Notifica os observadores
+    // Remove a marca do array
+    return of(); // Retorna um Observable vazio
+  }
 }

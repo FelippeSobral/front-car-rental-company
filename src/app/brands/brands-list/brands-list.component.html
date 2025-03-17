@@ -1,6 +1,12 @@
 <div class="brands-list">
   <h2>Lista de Marcas</h2>
-  <button routerlink="/brands/new" class="btn-add">Adicionar Nova Marca</button>
+
+  <!-- Botão para abrir o modal -->
+  <button #openButton mat-raised-button color="primary" (click)="openBrandModal()">
+    Adicionar Nova Marca
+  </button>
+
+  <!-- Tabela de marcas -->
   <table>
     <thead>
       <tr>
@@ -11,15 +17,14 @@
     </thead>
 
     <tbody>
-    <tr *ngFor="let brand of brands">
-      <td>{{brand.id}}</td>
-      <td>{{brand.name}}</td>
-
-      <td>
-        <button (click)="editBrand(brand.id)" class="btn-edit">Editar</button>
-        <button (click)="deleteBrand(brand.id)" class="btn-delete">Excluir</button>
-      </td>
-    </tr>
-   </tbody>
+      <tr *ngFor="let brand of brands">
+        <td data-label="ID">{{ brand?.id }}</td>
+        <td data-label="Nome">{{ brand?.name }}</td>
+        <td data-label="Ações">
+          <button mat-button class="mat-primary" (click)="openBrandModal(brand)">Editar</button>
+          <button mat-button class="red-button" (click)="deleteBrand(brand)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>

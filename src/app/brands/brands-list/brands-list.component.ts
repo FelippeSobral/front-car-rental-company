@@ -1,41 +1,62 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { BrandService, Brand } from '../brands.service';
-import { Router } from '@angular/router';
+import { BrandModalComponent } from '../brand-modal/brand-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-brands-list',
-  imports: [],
+  standalone: true, // Define o componente como standalone
   templateUrl: './brands-list.component.html',
-  styleUrl: './brands-list.component.scss'
+  styleUrls: ['./brands-list.component.scss'],
+  imports: [CommonModule, BrandModalComponent], // Importa os módulos necessários
 })
-export class BrandListComponent  implements OnInit{
+export class BrandListComponent implements OnInit {
+  @ViewChild('openButton') openButton!: ElementRef; // Referência ao botão que abre o modal
   brands: Brand[] = [];
 
-  constructor(private brandsService: BrandService, private router: Router)  {}
+  constructor(
+    private brandsService: BrandService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadBrands();
   }
 
+  // Carrega a lista de marcas
   loadBrands(): void {
-    this.brandsService.getBrands().subscribe(
-      (data) => this.brands = data,
-      (error) => console.error('Erro ao carregar marcas' , error)
-    );
+    console.log('Recarregando lista de marcas...'); // Debug
+    this.brandsService.getBrands().subscribe({
+      next: (data) => this.brands = data, // Atualiza a lista de marcas no componente
+      error: (error) => console.error('Erro ao carregar marcas', error)
+    });
   }
 
+  // Abre o modal para adicionar ou editar uma marca
+  openBrandModal(brand: Brand | null = null): void {
+    const dialogRef = this.dialog.open(BrandModalComponent, {
+      width: '400px',
+      data: { brand }
+    });
 
-  editBrand(id: number): void {
-    this.router.navigate(['/brands/edit', id]);
+    // Após o fechamento do modal
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadBrands(); // Recarrega a lista de marcas
+      }
+      this.openButton.nativeElement.focus(); // Devolve o foco ao botão que abriu o modal
+    });
   }
 
-
-  deleteBrand(id: number): void {
+  // Exclui uma marca
+  deleteBrand(brand: Brand): void {
     if (confirm('Tem certeza que deseja excluir esta marca?')) {
-      this.brandsService.deleteBrand(id).subscribe(
-        () => this.loadBrands(),
-        (error) => console.error('Erro ao excluir marca', error)
-      );
+      this.brandsService.deleteBrand(brand.id).subscribe({
+        next: () => console.log('Marca excluída com sucesso!'),
+           // Recarrega a lista após a exclusão
+        error: (error) => console.error('Erro ao excluir marca', error)
+      });
     }
   }
 }
