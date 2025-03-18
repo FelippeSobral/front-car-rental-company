@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-veiculo-list',
   imports: [],
-  templateUrl: './veiculo-list.component.html',
-  styleUrl: './veiculo-list.component.scss'
+  templateUrl: './vehicles-list.component.html',
+  styleUrl: './vehicles-list.component.html'
 })
-export class VeiculoListComponent {
+export class VehiclesListComponent {
 
 }
