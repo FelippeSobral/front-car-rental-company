@@ -1,0 +1,70 @@
+<!-- Título do modal -->
+<h2 mat-dialog-title>
+  <!-- Exibe 'Editar Veículo' se estiver no modo de edição, ou 'Adicionar Novo Veículo' se estiver no modo de criação -->
+  {{ isEditMode ? 'Editar Veículo' : 'Adicionar Novo Veículo' }}
+</h2>
+
+<!-- Conteúdo principal do modal -->
+<mat-dialog-content>
+  <!-- Formulário reativo vinculado ao FormGroup definido no componente TypeScript -->
+  <form [formGroup]="vehicleForm">
+
+    <!-- Campo Nome -->
+    <mat-form-field appearance="fill">
+      <!-- Rótulo do campo -->
+      <mat-label>Nome</mat-label>
+      <!-- Campo de entrada para o nome do veículo, vinculado ao controle 'name' -->
+      <input matInput formControlName="name">
+      <!-- Mensagem de erro exibida caso o campo seja inválido -->
+      <mat-error *ngIf="vehicleForm.get('name')?.invalid">
+        O nome é obrigatório.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Marca -->
+    <mat-form-field appearance="fill">
+      <!-- Rótulo do campo -->
+      <mat-label>Marca</mat-label>
+      <!-- Campo de entrada para a marca do veículo, vinculado ao controle 'brand' -->
+      <input matInput formControlName="brand">
+      <!-- Mensagem de erro exibida caso o campo seja inválido -->
+      <mat-error *ngIf="vehicleForm.get('brand')?.invalid">
+        A marca é obrigatória.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Modelo -->
+    <mat-form-field appearance="fill">
+      <!-- Rótulo do campo -->
+      <mat-label>Modelo</mat-label>
+      <!-- Campo de entrada para o modelo do veículo, vinculado ao controle 'model' -->
+      <input matInput formControlName="model">
+      <!-- Mensagem de erro exibida caso o campo seja inválido -->
+      <mat-error *ngIf="vehicleForm.get('model')?.invalid">
+        O modelo é obrigatório.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Ano -->
+    <mat-form-field appearance="fill">
+      <!-- Rótulo do campo -->
+      <mat-label>Ano</mat-label>
+      <!-- Campo de entrada numérico para o ano do veículo, vinculado ao controle 'year' -->
+      <input matInput formControlName="year" type="number">
+      <!-- Mensagem de erro exibida caso o campo seja inválido -->
+      <mat-error *ngIf="vehicleForm.get('year')?.invalid">
+        O ano é obrigatório.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<!-- Ações do modal -->
+<mat-dialog-actions>
+
+  <!-- Botão para salvar ou atualizar os dados do veículo -->
+  <button mat-button class="cancel-button" (click)="onCancel()">Cancelar</button>
+  <button mat-button class="save-button" (click)="onSubmit()" [disabled]="vehicleForm.invalid">
+    {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+  </button>
+    <!-- Exibe 'Atualizar' se estiver no modo de edição, ou 'Salvar' se estiver no modo de criação -->
