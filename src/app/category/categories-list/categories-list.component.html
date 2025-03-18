@@ -1,1 +1,26 @@
-<p>categoria-list works!</p>
+
+<div class="categories-list">
+  <h2>Lista de Categorias</h2>
+
+  <button mat-raised-button color="primary" (click)="openCategoryModal()">
+    Adicionar Nova Categoria
+  </button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Descrição</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.descricao }}</td>
+        <td>
+          <button mat-button color="primary" (click)="openCategoryModal(category)">Editar</button>
+          <button mat-button color="warn" (click)="deleteCategory(category)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
