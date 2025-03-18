@@ -1,0 +1,130 @@
+.vehicles-list {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .add-button {
+    margin-bottom: 24px;
+    background-color: #4CAF50; // Verde
+    color: white;
+
+    &:hover {
+      background-color: #45a049; // Verde mais escuro
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Sombra suave
+    border-radius: 8px;
+    overflow: hidden;
+
+    thead {
+      background-color: #4CAF50; // Verde
+      color: white;
+
+      th {
+        padding: 16px;
+        text-align: left;
+        font-weight: bold;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f9f9f9; // Fundo cinza claro para linhas pares
+        }
+
+        &:hover {
+          background-color: #f1f1f1; // Fundo cinza ao passar o mouse
+        }
+
+        td {
+          padding: 16px;
+          border-bottom: 1px solid #ddd;
+
+          .action-buttons {
+            display: flex;
+            gap: 8px;
+
+            button {
+              padding: 8px 16px;
+              border-radius: 4px;
+              font-size: 0.875rem;
+              transition: background-color 0.3s ease;
+
+              &.edit-button {
+                background-color: #2196F3; // Azul
+                color: white;
+
+                &:hover {
+                  background-color: #1e88e5; // Azul mais escuro
+                }
+              }
+
+              &.delete-button {
+                background-color: #f44336; // Vermelho
+                color: white;
+
+                &:hover {
+                  background-color: #d32f2f; // Vermelho mais escuro
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsividade para telas menores
+@media (max-width: 768px) {
+  .vehicles-list {
+    padding: 16px;
+
+    table {
+      thead {
+        display: none; // Oculta o cabeçalho em telas pequenas
+      }
+
+      tbody {
+        tr {
+          display: block;
+          margin-bottom: 16px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+
+          td {
+            display: block;
+            text-align: right;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+
+            &::before {
+              content: attr(data-label); // Exibe o nome da coluna
+              float: left;
+              font-weight: bold;
+              text-transform: uppercase;
+              color: #4CAF50; // Verde
+            }
+
+            .action-buttons {
+              justify-content: flex-end;
+            }
+          }
+        }
+      }
+    }
+  }
+}

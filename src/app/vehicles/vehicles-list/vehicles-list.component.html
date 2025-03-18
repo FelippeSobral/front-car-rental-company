@@ -1,1 +1,35 @@
-<p>veiculo-list works!</p>
+<div class="vehicles-list">
+  <h2>Lista de Veículos</h2>
+
+  <button mat-raised-button class="add-button" (click)="openVehicleModal()">
+    Adicionar Novo Veículo
+  </button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Ano</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles">
+        <td data-label="ID">{{ vehicle.id }}</td>
+        <td data-label="Nome">{{ vehicle.name }}</td>
+        <td data-label="Marca">{{ vehicle.brand }}</td>
+        <td data-label="Modelo">{{ vehicle.model }}</td>
+        <td data-label="Ano">{{ vehicle.year }}</td>
+        <td data-label="Ações">
+          <div class="action-buttons">
+            <button mat-button class="edit-button" (click)="openVehicleModal(vehicle)">Editar</button>
+            <button mat-button class="delete-button" (click)="deleteVehicle(vehicle)">Excluir</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
