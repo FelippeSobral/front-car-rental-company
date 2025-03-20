@@ -11,11 +11,36 @@
     text-align: center;
   }
 
+  .add-button {
+    background-color: #4CAF50; // Verde
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 24px;
+
+    &:hover {
+      background-color: #45a049; // Verde mais escuro ao passar o mouse
+    }
+
+    &:disabled {
+      background-color: #dcdcdc; // Cinza quando desabilitado
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: #dcdcdc; // Mantém cinza ao passar o mouse
+      }
+    }
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
 
     thead {
@@ -43,8 +68,34 @@
           padding: 16px;
           border-bottom: 1px solid #ddd;
 
-          button {
-            margin-right: 8px;
+          .action-buttons {
+            display: flex;
+            gap: 8px;
+
+            button {
+              padding: 8px 16px;
+              border-radius: 4px;
+              font-size: 0.875rem;
+              transition: background-color 0.3s ease;
+
+              &.edit-button {
+                background-color: #2196F3; // Azul
+                color: white;
+
+                &:hover {
+                  background-color: #1e88e5; // Azul mais escuro
+                }
+              }
+
+              &.delete-button {
+                background-color: #f44336; // Vermelho
+                color: white;
+
+                &:hover {
+                  background-color: #d32f2f; // Vermelho mais escuro
+                }
+              }
+            }
           }
         }
       }

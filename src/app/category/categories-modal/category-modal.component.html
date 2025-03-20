@@ -9,8 +9,8 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancelar</button>
-  <button mat-button color="primary" (click)="onSubmit()" [disabled]="categoryForm.invalid">
+  <button mat-button class="cancel-button" (click)="onCancel()">Cancelar</button>
+  <button mat-button class="save-button" (click)="onSubmit()" [disabled]="categoryForm.invalid">
     {{ isEditMode ? 'Atualizar' : 'Salvar' }}
   </button>
 </mat-dialog-actions>

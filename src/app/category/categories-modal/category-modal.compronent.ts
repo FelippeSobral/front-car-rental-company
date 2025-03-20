@@ -45,12 +45,13 @@ export class CategoryModalComponent implements OnInit {
 
     const category: Category = this.categoryForm.value;
     if (this.isEditMode && this.data.category?.id) {
-      // Passa o ID e o objeto category para o método updateCategory
+      // Atualiza a categoria existente
       this.categoriesService.updateCategory(this.data.category.id, category).subscribe({
         next: () => this.dialogRef.close(true),
         error: (error) => console.error('Erro ao atualizar categoria', error)
       });
     } else {
+      // Cria uma nova categoria
       this.categoriesService.createCategory(category).subscribe({
         next: () => this.dialogRef.close(true),
         error: (error) => console.error('Erro ao criar categoria', error)

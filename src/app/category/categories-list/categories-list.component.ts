@@ -1,17 +1,17 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importe o CommonModule
+
 import { MatDialog } from '@angular/material/dialog';
 import { CategoriesService, Category } from '../categories.service';
 import { CategoryModalComponent } from '../categories-modal/category-modal.compronent';
-
 @Component({
   selector: 'app-categories-list',
-  imports: [],
+  imports:[CommonModule],
   templateUrl: './categories-list.component.html',
-  styleUrl: './categories-list.component.scss'
+  styleUrls: ['./categories-list.component.scss']
 })
-
-export class CategoriesListComponent implements OnInit{
-  categories: Category [] = [];
+export class CategoriesListComponent implements OnInit {
+  categories: Category[] = [];
 
   constructor(
     private categoriesService: CategoriesService,
@@ -26,15 +26,15 @@ export class CategoriesListComponent implements OnInit{
   loadCategories(): void {
     this.categoriesService.getCategories().subscribe({
       next: (data) => this.categories = data,
-      error: (error) => console.error("Erro ao carregar categorias" , error)
-    })
+      error: (error) => console.error('Erro ao carregar categorias', error)
+    });
   }
 
   // Abre o modal para adicionar/editar uma categoria
-  openCategoryModal(category: Category | null = null) : void {
+  openCategoryModal(category: Category | null = null): void {
     const dialogRef = this.dialog.open(CategoryModalComponent, {
       width: '400px',
-      data: {category}
+      data: { category }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
