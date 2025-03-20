@@ -1,0 +1,85 @@
+.dashboard {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .summary-cards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    .card {
+      flex: 1;
+      background-color: #f9f9f9;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+
+      h2 {
+        font-size: 1.25rem;
+        color: #555;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+  }
+
+  .recent-vehicles {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        background-color: #4CAF50;
+        color: white;
+
+        th {
+          padding: 12px;
+          text-align: left;
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-child(even) {
+            background-color: #f9f9f9;
+          }
+
+          &:hover {
+            background-color: #f1f1f1;
+          }
+
+          td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+          }
+        }
+      }
+    }
+  }
+}

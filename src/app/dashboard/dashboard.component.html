@@ -1,1 +1,46 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <h1>Painel Principal</h1>
+
+  <div class="summary-cards">
+    <!-- Card: Total de Veículos -->
+    <div class="card">
+      <h2>Total de Veículos</h2>
+      <p>{{ totalVehicles }}</p>
+    </div>
+
+    <!-- Card: Total de Marcas -->
+    <div class="card">
+      <h2>Total de Marcas</h2>
+      <p>{{ totalBrands }}</p>
+    </div>
+
+    <!-- Card: Total de Categorias -->
+    <div class="card">
+      <h2>Total de Categorias</h2>
+      <p>{{ totalCategories }}</p>
+    </div>
+  </div>
+
+  <!-- Lista de Veículos Recentes -->
+  <div class="recent-vehicles">
+    <h2>Veículos Recentes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Modelo</th>
+          <th>Marca</th>
+          <th>Categoria</th>
+          <th>Ano</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicle of recentVehicles">
+          <td>{{ vehicle.modelo }}</td>
+          <td>{{ vehicle.marca }}</td>
+          <td>{{ vehicle.categoria }}</td>
+          <td>{{ vehicle.ano }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
