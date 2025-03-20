@@ -20,6 +20,10 @@ export class BrandService {
     return of(this.brands); // Retorna a lista de marcas como um Observable
   }
 
+  getTotalBrands(): Observable<number> {
+    return of(this.brands.length); //Retorna o total de marcas
+  }
+
   // Cria uma nova marca
   createBrand(brand: Brand): Observable<Brand> {
     brand.id = this.brands.length + 1; // Gera um novo ID

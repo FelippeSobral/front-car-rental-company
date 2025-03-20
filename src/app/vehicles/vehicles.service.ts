@@ -18,6 +18,18 @@ export class VehiclesService {
   private vehiclesSubject = new BehaviorSubject<Vehicle[]>(this.vehicles) // Torna a lista reativa
   constructor() { }
 
+
+  getTotalVehicles(): Observable<number> {
+    return of (this.vehicles.length); // Retorna o total de veículos
+  }
+
+  getRecentVehicles(limit: number): Observable<Vehicle[]> {
+  const recentVehicles = this.vehicles
+    .sort((a, b) => b.id - a.id) // Ordena por ID decrescente (mais recentes primeiro)
+    .slice(0, limit); // Limita a quantidade de veículos
+  return of(recentVehicles);
+}
+
   // Retorna a lista de veículos como um Observable
   getVehicles(): Observable<Vehicle[]> {
     return this.vehiclesSubject.asObservable();

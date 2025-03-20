@@ -20,6 +20,11 @@ export class CategoriesService {
     return this.categoriesSubject.asObservable();
   }
 
+  // Retorna o total de categorias
+  getTotalCategories(): Observable<number> {
+    return of (this.categories.length)
+  }
+
   // Retorna uma categoria pelo ID
   getCategoryById(id: number): Observable<Category | undefined> {
     const category = this.categories.find(c => c.id === id);
