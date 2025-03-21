@@ -1,9 +1,25 @@
+button[mat-raised-button] {
+  background-color: #4CAF50; // Verde
+  color: white;
+  margin-bottom: 16px; // Espaço abaixo do botão
+
+  &:hover {
+    background-color: #45a049; // Verde mais escuro ao passar o mouse
+  }
+
+  &:disabled {
+    background-color: #dcdcdc; // Cinza quando desabilitado
+    cursor: not-allowed;
+  }
+}
+
 .brands-list {
   padding: 16px;
 
   h2 {
     font-size: 1.5rem;
     font-weight: bold;
+    color: #333;
     margin-bottom: 16px;
     text-align: center;
   }
@@ -11,6 +27,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
+    background-color: white; // Fundo branco para a tabela
 
     thead {
       background-color: #f5f5f5; // Cor de fundo do cabeçalho
@@ -25,6 +42,8 @@
 
     tbody {
       tr {
+        background-color: white; // Fundo branco para as linhas
+
         &:nth-child(even) {
           background-color: #f9f9f9; // Cor de fundo para linhas pares
         }
@@ -37,18 +56,17 @@
           padding: 12px;
           border-bottom: 1px solid #ddd;
 
-          button[mat-button] {
+          button {
             padding: 8px 16px;
-            border-radius: 5px;
+            border-radius: 4px;
             font-size: 1rem;
-            transition: background-color 0.3s ease; // Transição suave para hover
+            transition: background-color 0.3s ease;
 
             // Botão primário (Editar)
             &.mat-primary {
               background-color: #4CAF50; // Verde
               color: white;
-              margin-right: 8px; /* Espaço entre os botões */
-
+              margin-right: 8px;
 
               &:hover {
                 background-color: #45a049; // Verde mais escuro
@@ -111,7 +129,7 @@
               text-transform: uppercase;
             }
 
-            button[mat-button] {
+            button {
               width: 100%; // Botões ocupam toda a largura
               margin-top: 8px;
             }

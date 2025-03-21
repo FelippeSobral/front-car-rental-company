@@ -3,13 +3,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { BrandService, Brand } from '../brands.service';
 import { BrandModalComponent } from '../brand-modal/brand-modal.component';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-brands-list',
   standalone: true, // Define o componente como standalone
   templateUrl: './brands-list.component.html',
-  styleUrls: ['./brands-list.component.scss'],
-  imports: [CommonModule, BrandModalComponent], // Importa os módulos necessários
+  styleUrl: './brands-list.component.scss',
+  imports: [CommonModule, BrandModalComponent ,  MatButtonModule, MatTableModule], // Importa os módulos necessários
 })
 export class BrandListComponent implements OnInit {
   @ViewChild('openButton') openButton!: ElementRef; // Referência ao botão que abre o modal
