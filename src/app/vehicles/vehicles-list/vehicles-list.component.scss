@@ -11,6 +11,62 @@
     text-align: center;
   }
 
+  /* Estilos para a seção de filtros */
+  .filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    background-color: #f5f5f5;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    mat-form-field {
+      flex: 1 1 200px;
+      min-width: 200px;
+
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+
+      .mat-form-field-outline {
+        background-color: white;
+        border-radius: 4px;
+      }
+
+      input::placeholder {
+        color: #757575;
+        opacity: 1;
+      }
+
+      /* Placeholders específicos */
+      &:nth-child(1) input::placeholder { /* Modelo */
+        content: "Ex: Gol, Civic...";
+      }
+      &:nth-child(2) input::placeholder { /* Ano */
+        content: "Ex: 2020, 2021...";
+      }
+      &:nth-child(3) input::placeholder { /* Preço Mín */
+        content: "Ex: 100, 200...";
+      }
+      &:nth-child(4) input::placeholder { /* Preço Máx */
+        content: "Ex: 1000, 2000...";
+      }
+    }
+
+    .clear-filters {
+      background-color: #757575;
+      color: white;
+      align-self: flex-end;
+      margin-left: auto;
+
+      &:hover {
+        background-color: #616161;
+      }
+    }
+  }
+
   .add-button {
     margin-bottom: 24px;
     background-color: #4CAF50; // Verde
@@ -24,7 +80,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Sombra suave
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
 
@@ -42,11 +98,11 @@
     tbody {
       tr {
         &:nth-child(even) {
-          background-color: #f9f9f9; // Fundo cinza claro para linhas pares
+          background-color: #f9f9f9;
         }
 
         &:hover {
-          background-color: #f1f1f1; // Fundo cinza ao passar o mouse
+          background-color: #f1f1f1;
         }
 
         td {
@@ -64,20 +120,20 @@
               transition: background-color 0.3s ease;
 
               &.edit-button {
-                background-color: #2196F3; // Azul
+                background-color: #2196F3;
                 color: white;
 
                 &:hover {
-                  background-color: #1e88e5; // Azul mais escuro
+                  background-color: #1e88e5;
                 }
               }
 
               &.delete-button {
-                background-color: #f44336; // Vermelho
+                background-color: #f44336;
                 color: white;
 
                 &:hover {
-                  background-color: #d32f2f; // Vermelho mais escuro
+                  background-color: #d32f2f;
                 }
               }
             }
@@ -93,9 +149,23 @@
   .vehicles-list {
     padding: 16px;
 
+    .filters-container {
+      flex-direction: column;
+
+      mat-form-field {
+        width: 100%;
+      }
+
+      .clear-filters {
+        align-self: stretch;
+        margin-left: 0;
+        margin-top: 8px;
+      }
+    }
+
     table {
       thead {
-        display: none; // Oculta o cabeçalho em telas pequenas
+        display: none;
       }
 
       tbody {
@@ -112,11 +182,11 @@
             border-bottom: 1px solid #ddd;
 
             &::before {
-              content: attr(data-label); // Exibe o nome da coluna
+              content: attr(data-label);
               float: left;
               font-weight: bold;
               text-transform: uppercase;
-              color: #4CAF50; // Verde
+              color: #4CAF50;
             }
 
             .action-buttons {

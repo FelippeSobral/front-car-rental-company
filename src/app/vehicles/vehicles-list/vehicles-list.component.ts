@@ -2,10 +2,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { VehiclesService, Vehicle } from '../vehicles.service';
+import { FormsModule } from '@angular/forms';
 import { VehicleModalComponent } from '../vehicle-modal/vehicle-modal.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { MatLabel } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @Component({
@@ -13,9 +17,15 @@ import { MatTableModule } from '@angular/material/table';
   standalone: true, // Define o componente como standalone
   imports: [
     CommonModule,
+    MatLabel,
+    FormsModule,
+    MatFormField,
+    MatFormFieldModule,
     MatButtonModule,
+    MatInputModule,  // Para matInput funcionar
     MatTableModule,
     MatDialogModule,
+
     VehicleModalComponent // Importe o modal se necessário
   ],
 
@@ -25,7 +35,13 @@ import { MatTableModule } from '@angular/material/table';
 
 export class VehiclesListComponent {
   vehicles: Vehicle[] = []; //Array que armazena a lista de veículos. Inicialmente está vazio.
+  filteredVehicles: Vehicle[] = [];
 
+  // Filtros
+  filterModel: string = '';
+  filterYear: string = '';
+  filterMinPrice: number | null = null;
+  filterMaxPrice: number | null = null;
 
   constructor ( //Injeta o VehiclesService para lidar com os dados dos veículos e o MatDialog para gerenciar diálogos.
     private vehiclesService: VehiclesService,
@@ -38,12 +54,35 @@ export class VehiclesListComponent {
   }
 
   loadVehicles(): void {
-    //Faz uma chamada ao serviço para buscar a lista de veículos.
-    this.vehiclesService.getVehicles().subscribe({ //Inscreve-se no observable retornado para processar os dados.
-      next: (data) => this.vehicles = data, //next: Atualiza a propriedade vehicles com os dados recebidos
-      error:(error) => console.error("Erro ao carregar veiculos" , error) //error: Exibe uma mensagem de erro no console, caso algo dê errado.
-    })
+    this.vehiclesService.getVehicles().subscribe({
+      next: (data) => {
+        this.vehicles = data;
+        this.filteredVehicles = [...data]; // Inicializa com todos os veículos
+      },
+      error: (error) => console.error("Erro ao carregar veículos", error)
+    });
   }
+
+  applyFilters(): void {
+    this.filteredVehicles = this.vehicles.filter(vehicle => {
+      const matchesModel = vehicle.model.toLowerCase().includes(this.filterModel.toLowerCase());
+      const matchesYear = this.filterYear ? vehicle.year.toString().includes(this.filterYear) : true;
+      const matchesPrice =
+        (this.filterMinPrice ? vehicle.dailyPrice >= this.filterMinPrice : true) &&
+        (this.filterMaxPrice ? vehicle.dailyPrice <= this.filterMaxPrice : true);
+
+      return matchesModel && matchesYear && matchesPrice;
+    });
+  }
+
+  clearFilters(): void {
+    this.filterModel = '';
+    this.filterYear = '';
+    this.filterMinPrice = null;
+    this.filterMaxPrice = null;
+    this.filteredVehicles = [...this.vehicles];
+  }
+
 
   openVehicleModal(vehicle: Vehicle | null = null): void {
     const dialogRef = this.dialog.open(VehicleModalComponent, {  //this.dialog.open: Abre o modal utilizando VehicleModalComponent como conteúdo.

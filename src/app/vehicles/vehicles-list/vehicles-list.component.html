@@ -5,6 +5,34 @@
     Adicionar Novo Veículo
   </button>
 
+
+  <div class="filters-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Filtrar por Modelo</mat-label>
+      <input matInput [(ngModel)]="filterModel" (input)="applyFilters()">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Filtrar por Ano</mat-label>
+      <input matInput [(ngModel)]="filterYear" (input)="applyFilters()">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Preço Mínimo</mat-label>
+      <input matInput type="number" [(ngModel)]="filterMinPrice" (change)="applyFilters()">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Preço Máximo</mat-label>
+      <input matInput type="number" [(ngModel)]="filterMaxPrice" (change)="applyFilters()">
+    </mat-form-field>
+
+    <button mat-button (click)="clearFilters()">Limpar Filtros</button>
+</div>
+
+
+
+
   <table>
     <thead>
       <tr>
