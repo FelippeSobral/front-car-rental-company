@@ -1,6 +1,6 @@
 .categories-list {
   padding: 24px;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 
   h2 {
@@ -11,36 +11,66 @@
     text-align: center;
   }
 
-  .add-button {
-    background-color: #4CAF50; // Verde
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  /* Container da busca */
+  .search-container {
+    display: flex;
     margin-bottom: 24px;
+    background-color: #f5f5f5;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    &:hover {
-      background-color: #45a049; // Verde mais escuro ao passar o mouse
-    }
+    mat-form-field {
+      flex: 1;
+      max-width: 400px;
 
-    &:disabled {
-      background-color: #dcdcdc; // Cinza quando desabilitado
-      cursor: not-allowed;
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
 
-      &:hover {
-        background-color: #dcdcdc; // Mantém cinza ao passar o mouse
+      .mat-form-field-outline {
+        background-color: white;
+        border-radius: 4px;
+      }
+
+      .mat-icon {
+        color: #757575;
+      }
+
+      input::placeholder {
+        color: #9e9e9e;
+        font-style: italic;
       }
     }
   }
 
+  /* Botão Adicionar */
+  .add-button {
+    margin-bottom: 24px;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #45a049;
+    }
+
+    &:disabled {
+      background-color: #dcdcdc;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: #dcdcdc;
+      }
+    }
+  }
+
+  /* Estilos da tabela */
   table {
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
 
     thead {
@@ -79,21 +109,73 @@
               transition: background-color 0.3s ease;
 
               &.edit-button {
-                background-color: #2196F3; // Azul
+                background-color: #2196F3;
                 color: white;
 
                 &:hover {
-                  background-color: #1e88e5; // Azul mais escuro
+                  background-color: #1e88e5;
                 }
               }
 
               &.delete-button {
-                background-color: #f44336; // Vermelho
+                background-color: #f44336;
                 color: white;
 
                 &:hover {
-                  background-color: #d32f2f; // Vermelho mais escuro
+                  background-color: #d32f2f;
                 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .search-container {
+      flex-direction: column;
+
+      mat-form-field {
+        max-width: 100%;
+      }
+    }
+
+    table {
+      thead {
+        display: none;
+      }
+
+      tbody {
+        tr {
+          display: block;
+          margin-bottom: 16px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+
+          td {
+            display: block;
+            text-align: right;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+
+            &::before {
+              content: attr(data-label);
+              float: left;
+              font-weight: bold;
+              text-transform: uppercase;
+              color: #4CAF50;
+            }
+
+            .action-buttons {
+              justify-content: flex-end;
+
+              button {
+                width: 100%;
+                margin-top: 8px;
               }
             }
           }

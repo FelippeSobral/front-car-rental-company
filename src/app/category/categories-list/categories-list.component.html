@@ -1,10 +1,21 @@
 <div class="categories-list">
   <h2>Lista de Categorias</h2>
 
+  <!-- Botão Adicionar -->
   <button mat-raised-button class="add-button" (click)="openCategoryModal()">
     Adicionar Nova Categoria
   </button>
 
+  <!-- Barra de Pesquisa -->
+  <div class="search-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar Categoria</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="applySearch()" placeholder="Digite o nome da categoria...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Tabela de Categorias -->
   <table>
     <thead>
       <tr>
@@ -13,10 +24,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let category of categories">
-
-        <td>{{ category.descricao }}</td>
-        <td>
+      <tr *ngFor="let category of filteredCategories">
+        <td data-label="Descrição">{{ category.descricao }}</td>
+        <td data-label="Ações">
           <div class="action-buttons">
             <button mat-button class="edit-button" (click)="openCategoryModal(category)">Editar</button>
             <button mat-button class="delete-button" (click)="deleteCategory(category)">Excluir</button>

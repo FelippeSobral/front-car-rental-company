@@ -2,9 +2,18 @@
   <h2>Lista de Marcas</h2>
 
   <!-- Botão para abrir o modal -->
-  <button #openButton mat-raised-button color="primary" (click)="openBrandModal()">
+  <button #openButton mat-raised-button class="add-button" (click)="openBrandModal()">
     Adicionar Nova Marca
   </button>
+
+  <!-- Barra de pesquisa -->
+  <div class="search-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar Marca</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="applySearch()" placeholder="Digite o nome da marca...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
 
   <!-- Tabela de marcas -->
   <table>
@@ -17,12 +26,14 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let brand of brands">
+      <tr *ngFor="let brand of filteredBrands">
         <td data-label="ID">{{ brand?.id }}</td>
         <td data-label="Nome">{{ brand?.name }}</td>
         <td data-label="Ações">
-          <button mat-button class="mat-primary" (click)="openBrandModal(brand)">Editar</button>
-          <button mat-button class="red-button" (click)="deleteBrand(brand)">Excluir</button>
+          <div class="action-buttons">
+            <button mat-button class="edit-button" (click)="openBrandModal(brand)">Editar</button>
+            <button mat-button class="delete-button" (click)="deleteBrand(brand)">Excluir</button>
+          </div>
         </td>
       </tr>
     </tbody>

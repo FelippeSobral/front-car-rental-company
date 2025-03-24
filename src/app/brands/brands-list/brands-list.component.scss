@@ -1,95 +1,123 @@
-button[mat-raised-button] {
-  background-color: #4CAF50; // Verde
-  color: white;
-  margin-bottom: 16px; // Espaço abaixo do botão
-
-  &:hover {
-    background-color: #45a049; // Verde mais escuro ao passar o mouse
-  }
-
-  &:disabled {
-    background-color: #dcdcdc; // Cinza quando desabilitado
-    cursor: not-allowed;
-  }
-}
-
 .brands-list {
-  padding: 16px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bold;
     color: #333;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     text-align: center;
   }
 
+  /* Estilos para o botão Adicionar */
+  .add-button {
+    margin-bottom: 24px;
+    background-color: #4CAF50; // Verde
+    color: white;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #45a049; // Verde mais escuro
+    }
+  }
+
+  /* Container da busca */
+  .search-container {
+    display: flex;
+    margin-bottom: 24px;
+    background-color: #f5f5f5;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    mat-form-field {
+      flex: 1;
+      max-width: 400px;
+
+      /* Estilo do campo de input */
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+
+      .mat-form-field-outline {
+        background-color: white;
+        border-radius: 4px;
+      }
+
+      /* Estilo do ícone de busca */
+      .mat-icon {
+        color: #757575;
+      }
+
+      /* Placeholder estilizado */
+      input::placeholder {
+        color: #9e9e9e;
+        font-style: italic;
+      }
+    }
+  }
+
+  /* Estilos da tabela */
   table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white; // Fundo branco para a tabela
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 
     thead {
-      background-color: #f5f5f5; // Cor de fundo do cabeçalho
+      background-color: #4CAF50; // Verde
+      color: white;
 
       th {
-        padding: 12px;
+        padding: 16px;
         text-align: left;
         font-weight: bold;
-        border-bottom: 2px solid #ddd;
       }
     }
 
     tbody {
       tr {
-        background-color: white; // Fundo branco para as linhas
-
         &:nth-child(even) {
-          background-color: #f9f9f9; // Cor de fundo para linhas pares
+          background-color: #f9f9f9; // Fundo cinza claro para linhas pares
         }
 
         &:hover {
-          background-color: #f1f1f1; // Cor de fundo ao passar o mouse
+          background-color: #f1f1f1; // Efeito hover
         }
 
         td {
-          padding: 12px;
+          padding: 16px;
           border-bottom: 1px solid #ddd;
 
-          button {
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
+          .action-buttons {
+            display: flex;
+            gap: 8px;
 
-            // Botão primário (Editar)
-            &.mat-primary {
-              background-color: #4CAF50; // Verde
-              color: white;
-              margin-right: 8px;
+            button {
+              padding: 8px 16px;
+              border-radius: 4px;
+              font-size: 0.875rem;
+              transition: background-color 0.3s ease;
 
-              &:hover {
-                background-color: #45a049; // Verde mais escuro
+              &.edit-button {
+                background-color: #2196F3; // Azul
+                color: white;
+
+                &:hover {
+                  background-color: #1e88e5; // Azul mais escuro
+                }
               }
-            }
 
-            // Botão vermelho (Excluir)
-            &.red-button {
-              background-color: #f44336; // Vermelho
-              color: white;
+              &.delete-button {
+                background-color: #f44336; // Vermelho
+                color: white;
 
-              &:hover {
-                background-color: #d32f2f; // Vermelho mais escuro
-              }
-            }
-
-            // Botão desabilitado
-            &:disabled {
-              background-color: #dcdcdc; // Cinza
-              cursor: not-allowed;
-
-              &:hover {
-                background-color: #dcdcdc; // Mantém cinza ao passar o mouse
+                &:hover {
+                  background-color: #d32f2f; // Vermelho mais escuro
+                }
               }
             }
           }
@@ -97,16 +125,22 @@ button[mat-raised-button] {
       }
     }
   }
-}
 
-// Responsividade para telas menores
-@media (max-width: 600px) {
-  .brands-list {
-    padding: 8px;
+  /* Responsividade para mobile */
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .search-container {
+      flex-direction: column;
+
+      mat-form-field {
+        max-width: 100%;
+      }
+    }
 
     table {
       thead {
-        display: none; // Oculta o cabeçalho em telas pequenas
+        display: none;
       }
 
       tbody {
@@ -114,24 +148,29 @@ button[mat-raised-button] {
           display: block;
           margin-bottom: 16px;
           border: 1px solid #ddd;
-          border-radius: 5px;
+          border-radius: 8px;
 
           td {
             display: block;
             text-align: right;
-            padding: 8px;
+            padding: 12px;
             border-bottom: 1px solid #ddd;
 
             &::before {
-              content: attr(data-label); // Exibe o nome da coluna
+              content: attr(data-label);
               float: left;
               font-weight: bold;
               text-transform: uppercase;
+              color: #4CAF50;
             }
 
-            button {
-              width: 100%; // Botões ocupam toda a largura
-              margin-top: 8px;
+            .action-buttons {
+              justify-content: flex-end;
+
+              button {
+                width: 100%;
+                margin-top: 8px;
+              }
             }
           }
         }

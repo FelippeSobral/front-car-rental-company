@@ -1,21 +1,34 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BrandService, Brand } from '../brands.service';
 import { BrandModalComponent } from '../brand-modal/brand-modal.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-brands-list',
   standalone: true, // Define o componente como standalone
   templateUrl: './brands-list.component.html',
   styleUrl: './brands-list.component.scss',
-  imports: [CommonModule, BrandModalComponent ,  MatButtonModule, MatTableModule], // Importa os módulos necessários
+  imports: [CommonModule,
+    MatLabel,
+    FormsModule,
+    MatFormField,
+    BrandModalComponent,
+    MatButtonModule,
+    MatInputModule,  // Para matInput funcionar
+    MatTableModule,
+    MatDialogModule], // Importa os módulos necessários
 })
 export class BrandListComponent implements OnInit {
   @ViewChild('openButton') openButton!: ElementRef; // Referência ao botão que abre o modal
   brands: Brand[] = [];
+  filteredBrands: Brand[] = [];
+  searchTerm: string = '';
 
   constructor(
     private brandsService: BrandService,
@@ -28,12 +41,26 @@ export class BrandListComponent implements OnInit {
 
   // Carrega a lista de marcas
   loadBrands(): void {
-    console.log('Recarregando lista de marcas...'); // Debug
     this.brandsService.getBrands().subscribe({
-      next: (data) => this.brands = data, // Atualiza a lista de marcas no componente
+      next: (data) => {
+        this.brands = data;
+        this.filteredBrands = [...data];
+      },
       error: (error) => console.error('Erro ao carregar marcas', error)
     });
   }
+
+  applySearch(): void {
+    if (!this.searchTerm) {
+      this.filteredBrands = [...this.brands];
+      return;
+    }
+
+    this.filteredBrands = this.brands.filter(brand =>
+      brand.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
 
   // Abre o modal para adicionar ou editar uma marca
   openBrandModal(brand: Brand | null = null): void {
