@@ -32,16 +32,15 @@ export class VehicleModalComponent implements OnInit {
     private dialogRef: MatDialogRef<VehicleModalComponent>, //Referência ao modal, usada para fechá-lo.
     @Inject(MAT_DIALOG_DATA) public data: { vehicle: Vehicle }) {} //Injeta os dados passados ao modal (neste caso, o veículo a ser editado ou null para criação).
 
-    ngOnInit(): void { //Inicializa o formulário reativo com os dados do veículo (se fornecidos) ou com valores padrão.
+    ngOnInit(): void {
       this.vehicleForm = this.fb.group({
-        name: [this.data.vehicle?.name || '', Validators.required],
         brand: [this.data.vehicle?.brand || '', Validators.required],
         model: [this.data.vehicle?.model || '', Validators.required],
-        year: [this.data.vehicle?.year || '', Validators.required] //Campos do formulário inicializados com os dados do veículo ou com strings vazias.
-      }); //Validators.required: Validação que exige que o campo seja preenchido.
-
-      this.isEditMode = !!this.data.vehicle; //isEditMode: É configurado como true se um veículo foi passado para edição.
-
+        year: [this.data.vehicle?.year || '', Validators.required],
+        category: [this.data.vehicle?.category || '', Validators.required],       // Novo campo
+        dailyPrice: [this.data.vehicle?.dailyPrice || '', [Validators.required, Validators.min(0)]]  // Novo campo
+      });
+      this.isEditMode = !!this.data.vehicle;
     }
 
     //Validação do formulário: Verifica se os campos estão válidos antes de prosseguir.

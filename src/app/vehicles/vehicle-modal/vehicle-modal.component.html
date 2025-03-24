@@ -9,18 +9,6 @@
   <!-- Formulário reativo vinculado ao FormGroup definido no componente TypeScript -->
   <form [formGroup]="vehicleForm">
 
-    <!-- Campo Nome -->
-    <mat-form-field appearance="fill">
-      <!-- Rótulo do campo -->
-      <mat-label>Nome</mat-label>
-      <!-- Campo de entrada para o nome do veículo, vinculado ao controle 'name' -->
-      <input matInput formControlName="name">
-      <!-- Mensagem de erro exibida caso o campo seja inválido -->
-      <mat-error *ngIf="vehicleForm.get('name')?.invalid">
-        O nome é obrigatório.
-      </mat-error>
-    </mat-form-field>
-
     <!-- Campo Marca -->
     <mat-form-field appearance="fill">
       <!-- Rótulo do campo -->
@@ -56,8 +44,28 @@
         O ano é obrigatório.
       </mat-error>
     </mat-form-field>
+
+
+  <!-- Campo Categoria -->
+    <mat-form-field appearance="fill">
+      <mat-label>Categoria</mat-label>
+      <input matInput formControlName="category">
+      <mat-error *ngIf="vehicleForm.get('category')?.invalid">
+        A categoria é obrigatória.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Preço Diária -->
+    <mat-form-field appearance="fill">
+      <mat-label>Preço Diária (R$)</mat-label>
+      <input matInput formControlName="dailyPrice" type="number" min="0">
+      <mat-error *ngIf="vehicleForm.get('dailyPrice')?.invalid">
+        O preço diária é obrigatório.
+      </mat-error>
+    </mat-form-field>
   </form>
 </mat-dialog-content>
+
 
 <!-- Ações do modal -->
 <mat-dialog-actions>

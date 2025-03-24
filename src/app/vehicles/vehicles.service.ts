@@ -4,10 +4,11 @@ import { BehaviorSubject, Observable , of } from 'rxjs';
 //Interface que define a estrutura de um veiculo
 export interface Vehicle {
   id: number;
-  name: string;
   brand: string;
   model: string;
   year: number;
+  category: string;       // Novo campo
+  dailyPrice: number;     // Novo campo
 }
 @Injectable({
   providedIn: 'root'
