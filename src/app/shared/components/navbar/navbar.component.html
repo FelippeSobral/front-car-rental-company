@@ -14,12 +14,11 @@
   <!-- Espaço flexível para alinhar os itens à direita -->
   <span class="spacer"></span>
 
-  <!-- Exemplo de menu dropdown (opcional) -->
+  <!--  menu dropdown (opcional) -->
   <button mat-button [matMenuTriggerFor]="menu">
     <mat-icon>account_circle</mat-icon> Perfil
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>Configurações</button>
     <button mat-button (click)="logout()">Sair</button>
   </mat-menu>
 </mat-toolbar>

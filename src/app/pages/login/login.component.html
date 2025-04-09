@@ -1,5 +1,11 @@
 <div class="login-container">
   <h1>Login</h1>
+
+   <!-- Mensagem de erro -->
+   <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
   <form [formGroup]="loginForm" (ngSubmit)="submit()">
     <!-- Campo de Email -->
     <div class="form-group">

@@ -15,6 +15,6 @@ export const routes: Routes = [
   { path: 'categories', component: CategoriesListComponent },
   { path: 'vehicles', component: VehiclesListComponent },
   { path: 'brands', component: BrandListComponent },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: '/dashboard' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' }
 ];

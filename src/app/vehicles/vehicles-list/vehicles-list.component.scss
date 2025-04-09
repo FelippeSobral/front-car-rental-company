@@ -1,199 +1,86 @@
-.vehicles-list {
+.vehicles-container {
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
 
-  h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 24px;
-    text-align: center;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 500;
+      color: #3f51b5;
+      margin: 0;
+    }
   }
 
-  /* Estilos para a seção de filtros */
   .filters-container {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
     margin-bottom: 24px;
-    background-color: #f5f5f5;
     padding: 16px;
+    background-color: #f5f5f5;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     mat-form-field {
       flex: 1 1 200px;
-      min-width: 200px;
-
-      .mat-form-field-wrapper {
-        padding-bottom: 0;
-      }
-
-      .mat-form-field-outline {
-        background-color: white;
-        border-radius: 4px;
-      }
-
-      input::placeholder {
-        color: #757575;
-        opacity: 1;
-      }
-
-      /* Placeholders específicos */
-      &:nth-child(1) input::placeholder { /* Modelo */
-        content: "Ex: Gol, Civic...";
-      }
-      &:nth-child(2) input::placeholder { /* Ano */
-        content: "Ex: 2020, 2021...";
-      }
-      &:nth-child(3) input::placeholder { /* Preço Mín */
-        content: "Ex: 100, 200...";
-      }
-      &:nth-child(4) input::placeholder { /* Preço Máx */
-        content: "Ex: 1000, 2000...";
-      }
     }
 
-    .clear-filters {
-      background-color: #757575;
-      color: white;
-      align-self: flex-end;
-      margin-left: auto;
-
-      &:hover {
-        background-color: #616161;
-      }
+    button {
+      align-self: center;
     }
   }
 
-  .add-button {
-    margin-bottom: 24px;
-    background-color: #4CAF50; // Verde
-    color: white;
-
-    &:hover {
-      background-color: #45a049; // Verde mais escuro
-    }
+  .no-results {
+    text-align: center;
+    padding: 24px;
+    color: #757575;
+    font-size: 1.2rem;
   }
 
   table {
     width: 100%;
-    border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
 
-    thead {
-      background-color: #4CAF50; // Verde
-      color: white;
-
-      th {
-        padding: 16px;
-        text-align: left;
-        font-weight: bold;
-      }
+    th {
+      font-weight: 500;
+      background-color: #f5f5f5;
     }
 
-    tbody {
-      tr {
-        &:nth-child(even) {
-          background-color: #f9f9f9;
-        }
+    td, th {
+      padding: 12px 16px;
+    }
 
-        &:hover {
-          background-color: #f1f1f1;
-        }
+    tr:not(:last-child) {
+      border-bottom: 1px solid #e0e0e0;
+    }
 
-        td {
-          padding: 16px;
-          border-bottom: 1px solid #ddd;
-
-          .action-buttons {
-            display: flex;
-            gap: 8px;
-
-            button {
-              padding: 8px 16px;
-              border-radius: 4px;
-              font-size: 0.875rem;
-              transition: background-color 0.3s ease;
-
-              &.edit-button {
-                background-color: #2196F3;
-                color: white;
-
-                &:hover {
-                  background-color: #1e88e5;
-                }
-              }
-
-              &.delete-button {
-                background-color: #f44336;
-                color: white;
-
-                &:hover {
-                  background-color: #d32f2f;
-                }
-              }
-            }
-          }
-        }
-      }
+    tr:hover {
+      background-color: #f5f5f5;
     }
   }
 }
 
-// Responsividade para telas menores
 @media (max-width: 768px) {
-  .vehicles-list {
+  .vehicles-container {
     padding: 16px;
+
+    .header {
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
 
     .filters-container {
       flex-direction: column;
 
       mat-form-field {
         width: 100%;
-      }
-
-      .clear-filters {
-        align-self: stretch;
-        margin-left: 0;
-        margin-top: 8px;
-      }
-    }
-
-    table {
-      thead {
-        display: none;
-      }
-
-      tbody {
-        tr {
-          display: block;
-          margin-bottom: 16px;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-
-          td {
-            display: block;
-            text-align: right;
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-
-            &::before {
-              content: attr(data-label);
-              float: left;
-              font-weight: bold;
-              text-transform: uppercase;
-              color: #4CAF50;
-            }
-
-            .action-buttons {
-              justify-content: flex-end;
-            }
-          }
-        }
       }
     }
   }

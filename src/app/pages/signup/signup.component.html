@@ -1,5 +1,10 @@
 <div class="signup-container">
   <h1>Cadastro</h1>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
   <form [formGroup]="signupForm" (ngSubmit)="submit()">
     <!-- Campo de Nome -->
     <div class="form-group">
@@ -10,6 +15,10 @@
         formControlName="name"
         placeholder="Digite seu nome"
       />
+      <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="field-error">
+        <span *ngIf="signupForm.get('name')?.errors?.['required']">Nome é obrigatório</span>
+        <span *ngIf="signupForm.get('name')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+      </div>
     </div>
 
     <!-- Campo de Email -->
@@ -21,6 +30,10 @@
         formControlName="email"
         placeholder="Digite seu email"
       />
+      <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="field-error">
+        <span *ngIf="signupForm.get('email')?.errors?.['required']">Email é obrigatório</span>
+        <span *ngIf="signupForm.get('email')?.errors?.['email']">Email inválido</span>
+      </div>
     </div>
 
     <!-- Campo de Senha -->
@@ -32,6 +45,10 @@
         formControlName="password"
         placeholder="Digite sua senha"
       />
+      <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="field-error">
+        <span *ngIf="signupForm.get('password')?.errors?.['required']">Senha é obrigatória</span>
+        <span *ngIf="signupForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres</span>
+      </div>
     </div>
 
     <!-- Campo de Confirmar Senha -->
@@ -43,10 +60,13 @@
         formControlName="confirmPassword"
         placeholder="Confirme sua senha"
       />
+      <div *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched" class="field-error">
+        As senhas não coincidem
+      </div>
     </div>
 
     <!-- Botão de Cadastrar -->
-    <button type="submit" [disabled]="!signupForm.valid">Cadastrar</button>
+    <button type="submit" [disabled]="signupForm.invalid">Cadastrar</button>
 
     <!-- Link para Login -->
     <p>

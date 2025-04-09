@@ -1,38 +1,56 @@
 <div class="brands-list">
-  <h2>Lista de Marcas</h2>
-
-  <!-- Botão para abrir o modal -->
-  <button #openButton mat-raised-button class="add-button" (click)="openBrandModal()">
-    Adicionar Nova Marca
-  </button>
+  <!-- Cabeçalho com título e botão -->
+  <div class="list-header">
+    <h2>Lista de Marcas</h2>
+    <div class="header-actions">
+      <button mat-raised-button class="add-button" (click)="openBrandModal()">
+        <mat-icon>add</mat-icon>
+        Adicionar Marca
+      </button>
+    </div>
+  </div>
 
   <!-- Barra de pesquisa -->
   <div class="search-container">
     <mat-form-field appearance="outline">
-      <mat-label>Buscar Marca</mat-label>
-      <input matInput [(ngModel)]="searchTerm" (input)="applySearch()" placeholder="Digite o nome da marca...">
+      <mat-label>Pesquisar marcas</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="applySearch()">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
 
+  <!-- Estado de carregamento -->
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <!-- Estado vazio -->
+  <div class="empty-state" *ngIf="!isLoading && filteredBrands.length === 0">
+    <mat-icon>inventory_2</mat-icon>
+    <p>Nenhuma marca encontrada</p>
+  </div>
+
   <!-- Tabela de marcas -->
-  <table>
+  <table class="brands-table" *ngIf="!isLoading && filteredBrands.length > 0">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Nome</th>
-        <th>Ações</th>
+        <th class="actions-header>"> Ações</th>
       </tr>
     </thead>
-
     <tbody>
       <tr *ngFor="let brand of filteredBrands">
-        <td data-label="ID">{{ brand?.id }}</td>
-        <td data-label="Nome">{{ brand?.name }}</td>
-        <td data-label="Ações">
+        <td data-label="Nome">{{ brand.name }}</td>
+        <td>
           <div class="action-buttons">
-            <button mat-button class="edit-button" (click)="openBrandModal(brand)">Editar</button>
-            <button mat-button class="delete-button" (click)="deleteBrand(brand)">Excluir</button>
+            <button mat-button class="edit-button" (click)="openBrandModal(brand)">
+              <mat-icon>edit</mat-icon>
+              Editar
+            </button>
+            <button mat-button class="delete-button" (click)="deleteBrand(brand)">
+              <mat-icon>delete</mat-icon>
+              Excluir
+            </button>
           </div>
         </td>
       </tr>

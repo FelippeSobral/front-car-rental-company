@@ -1,78 +1,96 @@
-<!-- Título do modal -->
-<h2 mat-dialog-title>
-  <!-- Exibe 'Editar Veículo' se estiver no modo de edição, ou 'Adicionar Novo Veículo' se estiver no modo de criação -->
-  {{ isEditMode ? 'Editar Veículo' : 'Adicionar Novo Veículo' }}
-</h2>
+<div class="vehicle-modal-container">
+  <h2 mat-dialog-title>
+    {{ isEditMode ? 'Editar Veículo' : 'Adicionar Novo Veículo' }}
+  </h2>
 
-<!-- Conteúdo principal do modal -->
-<mat-dialog-content>
-  <!-- Formulário reativo vinculado ao FormGroup definido no componente TypeScript -->
-  <form [formGroup]="vehicleForm">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 
-    <!-- Campo Marca -->
-    <mat-form-field appearance="fill">
-      <!-- Rótulo do campo -->
-      <mat-label>Marca</mat-label>
-      <!-- Campo de entrada para a marca do veículo, vinculado ao controle 'brand' -->
-      <input matInput formControlName="brand">
-      <!-- Mensagem de erro exibida caso o campo seja inválido -->
-      <mat-error *ngIf="vehicleForm.get('brand')?.invalid">
-        A marca é obrigatória.
-      </mat-error>
-    </mat-form-field>
+  <mat-dialog-content>
+    <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Modelo -->
+        <mat-form-field appearance="outline">
+          <mat-label>Modelo</mat-label>
+          <input matInput formControlName="modelo" placeholder="Ex: Onix, Civic...">
+          <mat-error *ngIf="modelo?.hasError('required')">
+            Modelo é obrigatório
+          </mat-error>
+          <mat-error *ngIf="modelo?.hasError('maxlength')">
+            Máximo de 50 caracteres
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Campo Modelo -->
-    <mat-form-field appearance="fill">
-      <!-- Rótulo do campo -->
-      <mat-label>Modelo</mat-label>
-      <!-- Campo de entrada para o modelo do veículo, vinculado ao controle 'model' -->
-      <input matInput formControlName="model">
-      <!-- Mensagem de erro exibida caso o campo seja inválido -->
-      <mat-error *ngIf="vehicleForm.get('model')?.invalid">
-        O modelo é obrigatório.
-      </mat-error>
-    </mat-form-field>
+        <!-- Ano -->
+        <mat-form-field appearance="outline">
+          <mat-label>Ano</mat-label>
+          <input matInput formControlName="ano" placeholder="Ex: 2020" type="number">
+          <mat-error *ngIf="ano?.hasError('required')">
+            Ano é obrigatório
+          </mat-error>
+          <mat-error *ngIf="ano?.hasError('min') || ano?.hasError('max')">
+            Ano deve estar entre 1900 e {{ currentYear }}
+          </mat-error>
+          <mat-error *ngIf="ano?.hasError('pattern')">
+            Digite apenas números
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Campo Ano -->
-    <mat-form-field appearance="fill">
-      <!-- Rótulo do campo -->
-      <mat-label>Ano</mat-label>
-      <!-- Campo de entrada numérico para o ano do veículo, vinculado ao controle 'year' -->
-      <input matInput formControlName="year" type="number">
-      <!-- Mensagem de erro exibida caso o campo seja inválido -->
-      <mat-error *ngIf="vehicleForm.get('year')?.invalid">
-        O ano é obrigatório.
-      </mat-error>
-    </mat-form-field>
+        <!-- Preço Diária -->
+        <mat-form-field appearance="outline">
+          <mat-label>Preço Diária (R$)</mat-label>
+          <input matInput formControlName="preco_diaria" placeholder="Ex: 150.00" type="number" step="0.01">
+          <mat-error *ngIf="preco_diaria?.hasError('required')">
+            Preço é obrigatório
+          </mat-error>
+          <mat-error *ngIf="preco_diaria?.hasError('min')">
+            Valor mínimo: R$ 0.01
+          </mat-error>
+          <mat-error *ngIf="preco_diaria?.hasError('pattern')">
+            Formato inválido (use 00.00)
+          </mat-error>
+        </mat-form-field>
 
+        <!-- Marca -->
+        <mat-form-field appearance="outline">
+          <mat-label>Marca</mat-label>
+          <mat-select formControlName="marcaId" required>
+            <mat-option *ngFor="let brand of brands" [value]="brand.id">
+              {{ brand.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="marcaId?.hasError('required')">
+            Selecione uma marca
+          </mat-error>
+        </mat-form-field>
 
-  <!-- Campo Categoria -->
-    <mat-form-field appearance="fill">
-      <mat-label>Categoria</mat-label>
-      <input matInput formControlName="category">
-      <mat-error *ngIf="vehicleForm.get('category')?.invalid">
-        A categoria é obrigatória.
-      </mat-error>
-    </mat-form-field>
+        <!-- Categoria -->
+        <mat-form-field appearance="outline">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="categoriaId" required>
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+              {{ category.descricao }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="categoriaId?.hasError('required')">
+            Selecione uma categoria
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
 
-    <!-- Campo Preço Diária -->
-    <mat-form-field appearance="fill">
-      <mat-label>Preço Diária (R$)</mat-label>
-      <input matInput formControlName="dailyPrice" type="number" min="0">
-      <mat-error *ngIf="vehicleForm.get('dailyPrice')?.invalid">
-        O preço diária é obrigatório.
-      </mat-error>
-    </mat-form-field>
-  </form>
-</mat-dialog-content>
-
-
-<!-- Ações do modal -->
-<mat-dialog-actions>
-
-  <!-- Botão para salvar ou atualizar os dados do veículo -->
-  <button mat-button class="cancel-button" (click)="onCancel()">Cancelar</button>
-  <button mat-button class="save-button" (click)="onSubmit()" [disabled]="vehicleForm.invalid">
-    {{ isEditMode ? 'Atualizar' : 'Salvar' }}
-  </button>
-    <!-- Exibe 'Atualizar' se estiver no modo de edição, ou 'Salvar' se estiver no modo de criação -->
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="vehicleForm.invalid || isLoading"
+    >
+      {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+      <mat-icon *ngIf="isLoading" class="spinner-icon">
+        <mat-spinner diameter="20"></mat-spinner>
+      </mat-icon>
+    </button>
+  </mat-dialog-actions>
+</div>

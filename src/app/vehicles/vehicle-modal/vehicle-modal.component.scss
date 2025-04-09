@@ -19,21 +19,21 @@ mat-dialog-content {
 
       .mat-form-field-wrapper {
         border-radius: 4px;
-        background-color: #f9f9f9; // Fundo cinza claro
+        background-color: #f9f9f9;
       }
 
       .mat-form-field-outline {
-        border-color: #ddd; // Cor da borda
+        border-color: #ddd;
       }
 
       .mat-input-element {
-        color: #333; // Cor do texto
+        color: #333;
       }
     }
 
     mat-error {
       font-size: 0.875rem;
-      color: #f44336; // Vermelho para mensagens de erro
+      color: #f44336;
     }
   }
 }
@@ -51,35 +51,34 @@ mat-dialog-actions {
     transition: background-color 0.3s ease;
 
     &.cancel-button {
-      background-color: #f44336; // Vermelho
+      background-color: #f44336;
       color: white;
 
       &:hover {
-        background-color: #d32f2f; // Vermelho mais escuro
+        background-color: #d32f2f;
       }
     }
 
     &.save-button {
-      background-color: #4CAF50; // Verde
+      background-color: #4CAF50;
       color: white;
 
       &:hover {
-        background-color: #45a049; // Verde mais escuro
+        background-color: #45a049;
       }
     }
 
     &:disabled {
-      background-color: #dcdcdc; // Cinza
+      background-color: #dcdcdc;
       cursor: not-allowed;
 
       &:hover {
-        background-color: #dcdcdc; // Mantém cinza ao passar o mouse
+        background-color: #dcdcdc;
       }
     }
   }
 }
 
-// Responsividade para telas menores
 @media (max-width: 600px) {
   mat-dialog-content {
     padding: 8px;
@@ -90,12 +89,12 @@ mat-dialog-actions {
   }
 
   mat-dialog-actions {
-    flex-direction: column; // Botões em coluna em telas pequenas
+    flex-direction: column;
     gap: 8px;
     padding: 8px;
 
     button {
-      width: 100%; // Botões ocupam toda a largura
+      width: 100%;
     }
   }
 }

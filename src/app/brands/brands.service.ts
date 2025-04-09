@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { EnvironmentInjector, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 
 export interface Brand {
   id: number;
@@ -10,43 +12,32 @@ export interface Brand {
   providedIn: 'root'
 })
 export class BrandService {
-  private brands: Brand[] = []; // Inicializa a lista de marcas
-  private brandsSubject = new BehaviorSubject<Brand[]>(this.brands); // Torna a lista de marcas reativa
 
-  constructor() {}
+  private apiUrl = 'http://localhost:3000/api/brands';
+
+  constructor(private http: HttpClient) {} // Injeção do HttpClient
 
   // Retorna a lista de marcas
   getBrands(): Observable<Brand[]> {
-    return of(this.brands); // Retorna a lista de marcas como um Observable
+    return this.http.get<Brand[]>(this.apiUrl) // Retorna a lista de marcas como um Observable
   }
 
   getTotalBrands(): Observable<number> {
-    return of(this.brands.length); //Retorna o total de marcas
+    return this.http.get<number>(`${this.apiUrl}/count`);
   }
 
   // Cria uma nova marca
   createBrand(brand: Brand): Observable<Brand> {
-    brand.id = this.brands.length + 1; // Gera um novo ID
-    this.brands.push(brand); // Adiciona a marca ao array
-    return of(brand); // Retorna a marca criada
+    return this.http.post<Brand>(this.apiUrl, brand)
   }
 
   // Atualiza uma marca existente
   updateBrand(brand: Brand): Observable<Brand> {
-    const index = this.brands.findIndex(b => b.id === brand.id);
-    if (index !== -1) {
-      this.brands[index] = brand; // Atualiza a marca no array
-    }
-    return of(brand); // Retorna a marca atualizada
+    return this.http.put<Brand>(`${this.apiUrl}/${brand.id}`, {name: brand.name})
   }
 
   // Exclui uma marca
   deleteBrand(id: number): Observable<void> {
-        // Remove a marca do array
-
-    this.brands = this.brands.filter(b => b.id !== id);
-    this.brandsSubject.next(this.brands); // Notifica os observadores
-    // Remove a marca do array
-    return of(); // Retorna um Observable vazio
+    return this.http.delete<void>(`${this.apiUrl}/${id}`)
   }
 }

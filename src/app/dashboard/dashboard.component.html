@@ -1,46 +1,106 @@
 <div class="dashboard">
-  <h1>Painel Principal</h1>
+  <header class="dashboard-header">
+    <h1>Painel Administrativo</h1>
+    <div class="last-updated">Atualizado em {{ lastUpdated | date:'dd/MM/yyyy HH:mm' }}</div>
+  </header>
 
-  <div class="summary-cards">
-    <!-- Card: Total de Veículos -->
-    <div class="card">
-      <h2>Total de Veículos</h2>
-      <p>{{ totalVehicles }}</p>
-    </div>
+  <div class="summary-section">
+    <div class="summary-cards">
+      <!-- Card: Total de Veículos -->
+      <div class="summary-card vehicle-card">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/>
+            <circle cx="7.5" cy="14.5" r="1.5"/>
+            <circle cx="16.5" cy="14.5" r="1.5"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h3>Total de Veículos</h3>
+          <p class="card-value">{{ totalVehicles }}</p>
+        </div>
+      </div>
 
-    <!-- Card: Total de Marcas -->
-    <div class="card">
-      <h2>Total de Marcas</h2>
-      <p>{{ totalBrands }}</p>
-    </div>
+      <!-- Card: Total de Marcas -->
+      <div class="summary-card brand-card">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h3>Total de Marcas</h3>
+          <p class="card-value">{{ totalBrands }}</p>
+        </div>
+      </div>
 
-    <!-- Card: Total de Categorias -->
-    <div class="card">
-      <h2>Total de Categorias</h2>
-      <p>{{ totalCategories }}</p>
+      <!-- Card: Total de Categorias -->
+      <div class="summary-card category-card">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h3>Total de Categorias</h3>
+          <p class="card-value">{{ totalCategories }}</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Lista de Veículos Recentes -->
-  <div class="recent-vehicles">
-    <h2>Veículos Recentes</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Modelo</th>
-          <th>Marca</th>
-          <th>Categoria</th>
-          <th>Ano</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let vehicle of recentVehicles">
-          <td>{{ vehicle.modelo }}</td>
-          <td>{{ vehicle.marca }}</td>
-          <td>{{ vehicle.categoria }}</td>
-          <td>{{ vehicle.ano }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="recent-vehicles-section">
+    <div class="section-header">
+      <h2>Veículos Recentes</h2>
+      <button mat-stroked-button (click)="refreshData()">
+        <mat-icon>refresh</mat-icon>
+        Atualizar
+      </button>
+    </div>
+
+    <div class="table-container" *ngIf="!isLoading; else loading">
+      <table mat-table [dataSource]="recentVehicles" class="recent-vehicles-table">
+        <!-- Modelo Column -->
+        <ng-container matColumnDef="modelo">
+          <th mat-header-cell *matHeaderCellDef>Modelo</th>
+          <td mat-cell *matCellDef="let vehicle">{{ vehicle.modelo }}</td>
+        </ng-container>
+
+        <!-- Marca Column -->
+        <ng-container matColumnDef="marca">
+          <th mat-header-cell *matHeaderCellDef>Marca</th>
+          <td mat-cell *matCellDef="let vehicle">
+            {{ vehicle.marca?.name || vehicle.marca?.nome || 'N/A' }}
+          </td>
+        </ng-container>
+        <!-- Categoria Column -->
+        <ng-container matColumnDef="categoria">
+          <th mat-header-cell *matHeaderCellDef>Categoria</th>
+          <td mat-cell *matCellDef="let vehicle">{{ vehicle.categoria?.descricao || 'N/A' }}</td>
+        </ng-container>
+
+        <!-- Ano Column -->
+        <ng-container matColumnDef="ano">
+          <th mat-header-cell *matHeaderCellDef>Ano</th>
+          <td mat-cell *matCellDef="let vehicle">{{ vehicle.ano }}</td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div class="no-data" *ngIf="recentVehicles.length === 0">
+        <mat-icon>info</mat-icon>
+        <p>Nenhum veículo recente encontrado</p>
+      </div>
+    </div>
+
+    <ng-template #loading>
+      <div class="loading-data">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Carregando veículos...</p>
+      </div>
+    </ng-template>
   </div>
 </div>

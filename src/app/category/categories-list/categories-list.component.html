@@ -1,35 +1,62 @@
 <div class="categories-list">
-  <h2>Lista de Categorias</h2>
+  <!-- Cabeçalho com título e botão -->
+  <div class="list-header">
+    <h2>Lista de Categorias</h2>
+    <div class="header-actions">
+      <button mat-raised-button class="add-button" (click)="openCategoryModal()">
+        <mat-icon>add</mat-icon>
+        Adicionar Categoria
+      </button>
+    </div>
+  </div>
 
-  <!-- Botão Adicionar -->
-  <button mat-raised-button class="add-button" (click)="openCategoryModal()">
-    Adicionar Nova Categoria
-  </button>
-
-  <!-- Barra de Pesquisa -->
+  <!-- Barra de pesquisa -->
   <div class="search-container">
     <mat-form-field appearance="outline">
       <mat-label>Buscar Categoria</mat-label>
-      <input matInput [(ngModel)]="searchTerm" (input)="applySearch()" placeholder="Digite o nome da categoria...">
+      <input matInput [(ngModel)]="searchTerm" (input)="applySearch()">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
 
-  <!-- Tabela de Categorias -->
-  <table>
+  <!-- Estado de carregamento -->
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <!-- Estado vazio -->
+  <div class="empty-state" *ngIf="!isLoading && filteredCategories.length === 0">
+    <mat-icon>category</mat-icon>
+    <p>Nenhuma categoria encontrada</p>
+    <button mat-stroked-button (click)="openCategoryModal()">
+      <mat-icon>add</mat-icon>
+      Criar primeira categoria
+    </button>
+  </div>
+
+  <!-- Tabela de categorias -->
+  <table class="categories-table" *ngIf="!isLoading && filteredCategories.length > 0">
     <thead>
       <tr>
         <th>Descrição</th>
-        <th>Ações</th>
+        <th class="actions-header">Ações</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let category of filteredCategories">
         <td data-label="Descrição">{{ category.descricao }}</td>
-        <td data-label="Ações">
+        <td class="actions-cell">
           <div class="action-buttons">
-            <button mat-button class="edit-button" (click)="openCategoryModal(category)">Editar</button>
-            <button mat-button class="delete-button" (click)="deleteCategory(category)">Excluir</button>
+            <button mat-icon-button class="edit-button"
+                    matTooltip="Editar"
+                    (click)="openCategoryModal(category)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete-button"
+                    matTooltip="Excluir"
+                    (click)="deleteCategory(category)">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
         </td>
       </tr>

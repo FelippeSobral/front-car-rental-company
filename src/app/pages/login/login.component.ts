@@ -1,19 +1,25 @@
-import {Component} from '@angular/core'
-import { Form, FormControl, FormGroup , ReactiveFormsModule , Validators } from '@angular/forms'
-import { Router } from '@angular/router'
-import { PrimaryInputComponent } from '../primary-input/primary-input.component'
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { PrimaryInputComponent } from '../primary-input/primary-input.component';
+import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, PrimaryInputComponent],
+  imports: [CommonModule ,ReactiveFormsModule, PrimaryInputComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string | null = null;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -21,16 +27,21 @@ export class LoginComponent {
   }
 
   submit() {
-    if (this.loginForm.valid) {
-      console.log('Login realizado:', this.loginForm.value);
-      this.router.navigate(['/dashboard']); // Redireciona para o dashboard
-    } else {
-      console.error('Formulário inválido');
+    if (this.loginForm.invalid) {
+      return;
     }
+
+    this.authService.login(this.loginForm.value).subscribe({
+      next: () => {
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Email ou senha inválidos';
+      }
+    });
   }
 
   navigateToSignup() {
-    this.router.navigate(['/signup']); // Redireciona para a página de cadastro
+    this.router.navigate(['/signup']);
   }
 }
-
